@@ -82,5 +82,6 @@ python_functions = ["test_*"]
 
 [dependency-groups]
 dev = [
+    "pytest>=8.4.2",
     "ruff>=0.14.3",
 ]
