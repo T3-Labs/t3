@@ -17,20 +17,63 @@ Uma ferramenta CLI poderosa construída com Typer e Rich para interface de linha
 
 ```bash
 # Clone o repositório
-git clone <repository-url>
+git clone https://github.com/T3-Labs/t3.git
 cd t3
 
-# Instale usando uv (recomendado)
+# Instale dependências usando uv (recomendado)
 uv sync
 
-# Ou usando pip
-pip install -e .
+# Instale o CLI em modo desenvolvimento (editable)
+uv pip install -e .
+
+# Ative o ambiente virtual
+source .venv/bin/activate
+
+# Verifique a instalação
+t3 --version
+t3 --help
 ```
 
-### Para Uso
+**Ou usando pip:**
 
 ```bash
-pip install t3
+# Clone o repositório
+git clone https://github.com/T3-Labs/t3.git
+cd t3
+
+# Crie ambiente virtual
+python -m venv .venv
+source .venv/bin/activate
+
+# Instale dependências e CLI
+pip install -e .
+
+# Verifique a instalação
+t3 --version
+```
+
+### Para Uso (Produção)
+
+```bash
+# Instalar via pip (quando publicado no PyPI)
+pip install t3-cli
+
+# Ou instalar diretamente do GitHub
+pip install git+https://github.com/T3-Labs/t3.git
+
+# Verificar instalação
+t3 --version
+```
+
+### Usando sem Instalação
+
+Se você não quiser instalar, pode executar diretamente:
+
+```bash
+# Com ambiente virtual ativado
+python -m t3.main --help
+python -m t3.main status
+python -m t3.main init docker
 ```
 
 ## Uso Básico
@@ -302,15 +345,186 @@ A CLI armazena configurações em `~/.t3/config.json`. As configurações são p
 - Escreva testes para novas funcionalidades
 - Mantenha a cobertura de testes acima de 80%
 
+## Publicação e Release
+
+### Preparando uma Release
+
+1. **Atualize a versão** em `pyproject.toml`:
+   ```toml
+   version = "0.2.0"  # Siga versionamento semântico
+   ```
+
+2. **Atualize o CHANGELOG** no README.md com as mudanças
+
+3. **Commit e push** das mudanças:
+   ```bash
+   git add .
+   git commit -m "chore: bump version to 0.2.0"
+   git push origin main
+   ```
+
+4. **Crie uma tag de versão**:
+   ```bash
+   git tag -a v0.2.0 -m "Release v0.2.0"
+   git push origin v0.2.0
+   ```
+
+5. **Crie a Release no GitHub**:
+   - Vá para https://github.com/T3-Labs/t3/releases/new
+   - Selecione a tag criada (v0.2.0)
+   - Título: `v0.2.0`
+   - Descrição: Liste as mudanças principais
+   - Clique em "Publish release"
+
+6. **O CI/CD automaticamente**:
+   - ✅ Executará todos os testes
+   - ✅ Construirá o pacote
+   - ✅ Publicará no PyPI automaticamente
+
+### Configuração dos Secrets do GitHub
+
+Para que o CI/CD funcione, configure os seguintes secrets no GitHub:
+
+1. Acesse: `Settings` → `Secrets and variables` → `Actions`
+
+2. Adicione os secrets:
+   - **PYPI_API_TOKEN**: Token da API do PyPI
+     - Obtenha em: https://pypi.org/manage/account/token/
+     - Permissões: "Upload packages"
+   
+   - **TEST_PYPI_API_TOKEN** (opcional): Token do Test PyPI
+     - Obtenha em: https://test.pypi.org/manage/account/token/
+     - Para testar publicações antes do release oficial
+
+### Build Manual
+
+Para testar o build localmente antes da release:
+
+```bash
+# Instalar ferramentas de build
+pip install build twine
+
+# Limpar builds anteriores
+rm -rf dist/ build/ *.egg-info/
+
+# Construir o pacote
+python -m build
+
+# Verificar o pacote
+twine check dist/*
+
+# Testar instalação local
+pip install dist/t3_cli-0.1.0-py3-none-any.whl
+
+# Testar publicação no Test PyPI (opcional)
+twine upload --repository testpypi dist/*
+```
+
+### Versionamento Semântico
+
+Seguimos o [Semantic Versioning](https://semver.org/):
+
+- **MAJOR** (X.0.0): Mudanças incompatíveis na API
+- **MINOR** (0.X.0): Nova funcionalidade compatível
+- **PATCH** (0.0.X): Correções de bugs compatíveis
+
+Exemplos:
+- `0.1.0` → `0.2.0`: Novo comando adicionado
+- `0.2.0` → `0.2.1`: Correção de bug
+- `0.2.1` → `1.0.0`: API estável, mudanças breaking
+
+## Development Scripts
+
+Para facilitar o desenvolvimento, foram criados scripts auxiliares na pasta `scripts/`:
+
+### Dev Helper (`scripts/dev.sh`)
+
+Script para tarefas comuns de desenvolvimento:
+
+```bash
+# Configuração inicial
+./scripts/dev.sh setup
+
+# Executar testes
+./scripts/dev.sh test
+
+# Executar testes com cobertura
+./scripts/dev.sh coverage
+
+# Executar linter
+./scripts/dev.sh lint
+
+# Formatar código
+./scripts/dev.sh format
+
+# Executar todas as verificações (format + lint + test)
+./scripts/dev.sh check
+
+# Instalar CLI em modo editável
+./scripts/dev.sh install
+
+# Build do pacote
+./scripts/dev.sh build
+
+# Limpar artefatos de build
+./scripts/dev.sh clean
+```
+
+### Release Helper (`scripts/release.sh`)
+
+Script automatizado para criar releases:
+
+```bash
+# Criar release (ex: 0.2.0)
+./scripts/release.sh 0.2.0
+```
+
+Este script irá:
+1. ✅ Validar o formato da versão (semantic versioning)
+2. 📝 Atualizar `pyproject.toml` com nova versão
+3. 💾 Criar commit de bump de versão
+4. 🏷️ Criar tag versionada
+5. ⬆️ Push para o GitHub
+6. 📋 Exibir próximos passos para criar a release
+
+## CI/CD Pipeline
+
+O projeto possui workflows automatizados do GitHub Actions:
+
+### 🔄 CI/CD Principal (`ci-cd.yml`)
+- **Trigger**: Push em main/develop, Pull Requests, Releases
+- **Jobs**:
+  - ✅ Testes em Python 3.11 e 3.12
+  - 🔍 Linting com Ruff
+  - 📦 Build do pacote
+  - 🚀 Publicação automática no PyPI (em releases)
+  - 🧪 Publicação no Test PyPI (branch develop)
+
+### 🔍 Validação de PR (`pr-validation.yml`)
+- **Trigger**: Pull Requests
+- **Jobs**:
+  - ✅ Formatação de código
+  - 🔍 Linting
+  - 🧪 Testes com cobertura
+  - 📦 Verificação de build
+
+## Contributing
+
+Contribuições são bem-vindas! Veja [CONTRIBUTING.md](CONTRIBUTING.md) para guidelines detalhadas.
+
 ## Licença
 
 Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ## Changelog
 
-### v0.1.0
+### v0.1.0 (2025-11-08)
 - ✨ Versão inicial
 - 🚀 CLI básica com Typer e Rich
-- 🔧 Sistema de configuração
-- 📦 Templates de inicialização de projeto
-- ✅ Testes unitários básicos
+- 🔧 Sistema de configuração robusto
+- 📦 Templates de inicialização de projeto (Python, Web, Basic)
+- 🐳 Comando `t3 init docker` para setup do Edge Video
+- ✅ Testes unitários com pytest
+- 🎨 Linting e formatação com Ruff
+- 🔄 CI/CD completo com GitHub Actions
+- 📚 Documentação completa
