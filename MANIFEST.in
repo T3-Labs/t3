@@ -1,0 +1,26 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include .env.example
+
+recursive-include t3 *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
+
+exclude Makefile
+exclude demo.py
+exclude dev.py
+exclude config.yaml
+exclude config.toml
+
+prune .git
+prune .github
+prune tests
+prune .venv
+prune data
+prune logs
+prune config
+prune recordings
+prune test-project
+prune t3-demo-project

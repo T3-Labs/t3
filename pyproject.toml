@@ -1,25 +1,61 @@
 [project]
-name = "t3"
-version = "0.1.0"
-description = "T3 CLI - A powerful command-line interface tool"
+name = "t3-cli"
+version = "1.0.0"
+description = "T3 CLI - A powerful command-line interface tool with Docker integration"
 readme = "README.md"
 requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "T3 Labs", email = "andresjc2008@gmail.com"}
+]
+maintainers = [
+    {name = "T3 Labs", email = "andresjc2008@gmail.com"}
+]
+keywords = ["cli", "docker", "typer", "rich", "command-line", "tool"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Environment :: Console",
+    "Typing :: Typed",
+]
 dependencies = [
     "typer>=0.9.0",
     "rich>=13.0.0",
     "shellingham>=1.5.0",
-    "pytest>=8.4.2",
     "pyyaml>=6.0.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/T3-Labs/t3"
+Documentation = "https://github.com/T3-Labs/t3#readme"
+Repository = "https://github.com/T3-Labs/t3"
+Issues = "https://github.com/T3-Labs/t3/issues"
+Changelog = "https://github.com/T3-Labs/t3/releases"
+
 [project.scripts]
 t3 = "t3.main:app"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["t3", "t3.commands", "t3.core"]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "ruff>=0.1.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
 ]
 
 [tool.ruff]
