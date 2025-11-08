@@ -1,5 +1,5 @@
 [project]
-name = "t3-cli"
+name = "t3"
 version = "1.0.0"
 description = "T3 CLI - A powerful command-line interface tool with Docker integration"
 readme = "README.md"
