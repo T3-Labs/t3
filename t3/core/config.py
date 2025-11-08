@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 class ConfigManager:
@@ -19,10 +19,9 @@ class ConfigManager:
                                      If None, uses default location.
         """
         self.config_path = (
-            Path(config_path) if config_path
-            else Path.home() / ".t3" / "config.json"
+            Path(config_path) if config_path else Path.home() / ".t3" / "config.json"
         )
-        self._config_data: Dict[str, Any] = {}
+        self._config_data: dict[str, Any] = {}
         self.load_config()
 
     def load_config(self) -> None:
@@ -32,7 +31,7 @@ class ConfigManager:
             return
 
         try:
-            with self.config_path.open('r') as config_file:
+            with self.config_path.open("r") as config_file:
                 self._config_data = json.load(config_file)
         except (json.JSONDecodeError, OSError):
             self._config_data = {}
@@ -41,7 +40,7 @@ class ConfigManager:
         """Save configuration to file."""
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with self.config_path.open('w') as config_file:
+        with self.config_path.open("w") as config_file:
             json.dump(self._config_data, config_file, indent=2)
 
     def get(self, key: str, default: Any = None) -> Any:
@@ -84,7 +83,7 @@ class ConfigManager:
             return True
         return False
 
-    def get_all(self) -> Dict[str, Any]:
+    def get_all(self) -> dict[str, Any]:
         """
         Get all configuration values.
 

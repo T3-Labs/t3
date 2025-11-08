@@ -1,11 +1,11 @@
 """Configuration management commands."""
 
-import typer
+import json
 from pathlib import Path
+
+import typer
 from rich.console import Console
 from rich.table import Table
-from rich.prompt import Prompt
-import json
 
 console = Console()
 
@@ -18,18 +18,22 @@ CONFIG_FILE = Path.home() / ".t3" / "config.json"
 def show() -> None:
     """Show current configuration."""
     config_data = _load_config()
-    
+
     if not config_data:
         console.print("No configuration found", style="yellow")
         return
-    
-    table = Table(title="T3 CLI Configuration", show_header=True, header_style="bold magenta")
+
+    table = Table(
+        title="T3 CLI Configuration",
+        show_header=True,
+        header_style="bold magenta",
+    )
     table.add_column("Key", style="cyan", no_wrap=True)
     table.add_column("Value", style="green")
-    
+
     for key, value in config_data.items():
         table.add_row(key, str(value))
-    
+
     console.print(table)
 
 
@@ -42,7 +46,7 @@ def set(
     config_data = _load_config()
     config_data[key] = value
     _save_config(config_data)
-    
+
     console.print(f"✅ Set {key} = {value}", style="green")
 
 
@@ -52,7 +56,7 @@ def get(
 ) -> None:
     """Get a configuration value."""
     config_data = _load_config()
-    
+
     if key in config_data:
         console.print(f"{key} = {config_data[key]}", style="cyan")
     else:
@@ -66,7 +70,7 @@ def delete(
 ) -> None:
     """Delete a configuration value."""
     config_data = _load_config()
-    
+
     if key in config_data:
         del config_data[key]
         _save_config(config_data)
@@ -80,7 +84,7 @@ def delete(
 def reset() -> None:
     """Reset configuration to defaults."""
     from rich.prompt import Confirm
-    
+
     if Confirm.ask("Are you sure you want to reset all configuration?"):
         CONFIG_FILE.unlink(missing_ok=True)
         console.print("✅ Configuration reset", style="green")
@@ -92,17 +96,17 @@ def _load_config() -> dict:
     """Load configuration from file."""
     if not CONFIG_FILE.exists():
         return {}
-    
+
     try:
-        with CONFIG_FILE.open('r') as f:
+        with CONFIG_FILE.open("r") as f:
             return json.load(f)
-    except (json.JSONDecodeError, IOError):
+    except (OSError, json.JSONDecodeError):
         return {}
 
 
 def _save_config(config_data: dict) -> None:
     """Save configuration to file."""
     CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
-    
-    with CONFIG_FILE.open('w') as f:
+
+    with CONFIG_FILE.open("w") as f:
         json.dump(config_data, f, indent=2)

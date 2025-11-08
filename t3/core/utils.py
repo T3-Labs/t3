@@ -2,7 +2,7 @@
 
 import sys
 from pathlib import Path
-from typing import Any
+
 from rich.console import Console
 from rich.panel import Panel
 
@@ -40,9 +40,7 @@ def show_info(message: str) -> None:
     Args:
         message (str): The info message to display.
     """
-    console.print(
-        Panel(f"ℹ️ {message}", title="Info", title_align="left", style="blue")
-    )
+    console.print(Panel(f"ℹ️ {message}", title="Info", title_align="left", style="blue"))
 
 
 def show_warning(message: str) -> None:
