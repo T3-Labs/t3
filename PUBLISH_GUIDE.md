@@ -158,7 +158,7 @@ Depois que o workflow terminar:
 # Em um novo ambiente
 python -m venv test-env
 source test-env/bin/activate
-pip install t3-cli
+pip install t3
 t3 --version
 t3 --help
 ```

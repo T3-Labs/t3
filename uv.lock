@@ -741,7 +741,7 @@ wheels = [
 ]
 
 [[package]]
-name = "t3-cli"
+name = "t3"
 version = "1.0.0"
 source = { editable = "." }
 dependencies = [

@@ -126,7 +126,7 @@ T3 CLI é uma ferramenta de linha de comando robusta construída com Typer e Ric
 #### pyproject.toml
 ```toml
 [project]
-name = "t3-cli"
+name = "t3"
 version = "0.1.0"
 description = "CLI tool for T3 project initialization and management"
 authors = [{name = "T3 Labs", email = "contact@t3labs.com"}]
