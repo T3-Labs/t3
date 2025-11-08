@@ -29,8 +29,9 @@ def version_callback(value: bool) -> None:
         raise typer.Exit()
 
 
-@app.callback()
+@app.callback(invoke_without_command=True)
 def main(
+    ctx: typer.Context,
     version: bool | None = typer.Option(
         None,
         "--version",
@@ -41,7 +42,43 @@ def main(
     ),
 ) -> None:
     """T3 CLI - A powerful command-line interface tool."""
-    pass
+    if ctx.invoked_subcommand is None:
+        title_text = (
+            "\n[bold cyan]T3 CLI[/bold cyan] - "
+            "A powerful command-line interface tool\n"
+        )
+        console.print(title_text, style="bold")
+        console.print(f"Version: [green]{__version__}[/green]\n")
+
+        table = Table(
+            title="Available Commands",
+            show_header=True,
+            header_style="bold magenta",
+            border_style="cyan",
+        )
+        table.add_column("Command", style="cyan", no_wrap=True)
+        table.add_column("Description", style="white")
+
+        table.add_row("hello", "Say hello to someone")
+        table.add_row("status", "Show current system status")
+        table.add_row("init project", "Initialize a new project with templates")
+        table.add_row("init docker", "Initialize Docker environment with Edge Video")
+        table.add_row("config show", "Show all configuration settings")
+        table.add_row("config set", "Set a configuration value")
+        table.add_row("config get", "Get a configuration value")
+        table.add_row("config delete", "Delete a configuration key")
+        table.add_row("config reset", "Reset configuration to defaults")
+
+        console.print(table)
+        console.print(
+            "\n[yellow]💡 Tip:[/yellow] Use [cyan]t3 --help[/cyan] "
+            "for detailed help"
+        )
+        tip_text = (
+            "[yellow]💡 Tip:[/yellow] Use [cyan]t3 <command> --help[/cyan] "
+            "for command-specific help\n"
+        )
+        console.print(tip_text)
 
 
 @app.command()
