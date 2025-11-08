@@ -121,7 +121,7 @@ git push origin v0.2.0
      ```
      
      ## 🔗 Links
-     - [PyPI Package](https://pypi.org/project/t3-cli/)
+     - [PyPI Package](https://pypi.org/project/t3labs-cli/)
      - [Documentation](https://github.com/T3-Labs/t3#readme)
      - [Full Changelog](https://github.com/T3-Labs/t3/compare/v0.1.0...v0.2.0)
      ```
@@ -161,7 +161,7 @@ t3 --version  # Deve mostrar v0.2.0
 # Em um ambiente novo
 python -m venv test-env
 source test-env/bin/activate
-pip install t3-cli
+pip install t3labs-cli
 t3 --help
 t3 init docker --help
 ```

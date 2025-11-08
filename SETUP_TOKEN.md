@@ -76,7 +76,7 @@ git push origin v0.1.0
 
 Após criar a release, monitore em:
 - 🔗 **Actions**: https://github.com/T3-Labs/t3/actions
-- 🔗 **PyPI**: https://pypi.org/project/t3/
+- 🔗 **PyPI**: https://pypi.org/project/t3labs-cli/
 
 ## 🆘 Troubleshooting
 

@@ -234,7 +234,7 @@ t3 = "t3.main:app"
 
 3. **Verify Installation**
    ```bash
-   pip install t3-cli
+   pip install t3labs-cli
    t3 --version
    ```
 

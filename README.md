@@ -56,7 +56,7 @@ t3 --version
 
 ```bash
 # Instalar via pip (quando publicado no PyPI)
-pip install t3-cli
+pip install t3labs-cli
 
 # Ou instalar diretamente do GitHub
 pip install git+https://github.com/T3-Labs/t3.git

@@ -108,7 +108,7 @@ git push origin v0.1.0
 ### 📦 Instalação
 
 ```bash
-pip install t3-cli
+pip install t3labs-cli
 ```
 
 ### 🔧 Comandos Disponíveis
@@ -150,7 +150,7 @@ Após criar a release no GitHub:
 
 Depois que o workflow terminar:
 
-1. Acesse: https://pypi.org/project/t3-cli/
+1. Acesse: https://pypi.org/project/t3labs-cli/
 2. Verifique se a versão 0.1.0 aparece
 3. Teste a instalação:
 
@@ -222,7 +222,7 @@ git push origin develop
 # O job "publish-test-pypi" será executado
 
 # 3. Verifique em Test PyPI
-# https://test.pypi.org/project/t3-cli/
+# https://test.pypi.org/project/t3labs-cli/
 
 # 4. Teste a instalação do Test PyPI
 pip install -i https://test.pypi.org/simple/ t3-cli
@@ -258,7 +258,7 @@ pip install -i https://test.pypi.org/simple/ t3-cli
 5. ⏳ Criar release v0.1.0 no GitHub
 6. ⏳ Monitorar o workflow
 7. ⏳ Verificar publicação no PyPI
-8. ⏳ Testar instalação com `pip install t3-cli`
+8. ⏳ Testar instalação com `pip install t3labs-cli`
 
 ---
 
