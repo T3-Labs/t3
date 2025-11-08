@@ -3,11 +3,10 @@
 import typer
 from rich.console import Console
 from rich.table import Table
-from typing import Optional
 
 from t3 import __version__
-from t3.commands.init import init_app
 from t3.commands.config import config_app
+from t3.commands.init import init_app
 
 console = Console()
 
@@ -32,7 +31,7 @@ def version_callback(value: bool) -> None:
 
 @app.callback()
 def main(
-    version: Optional[bool] = typer.Option(
+    version: bool | None = typer.Option(
         None,
         "--version",
         "-v",
@@ -47,7 +46,7 @@ def main(
 
 @app.command()
 def hello(
-    name: str = typer.Option("World", "--name", "-n", help="Name to greet")
+    name: str = typer.Option("World", "--name", "-n", help="Name to greet"),
 ) -> None:
     """Say hello to someone."""
     console.print(f"Hello, [bold cyan]{name}[/bold cyan]! 👋", style="bold")
@@ -60,11 +59,11 @@ def status() -> None:
     table.add_column("Component", style="cyan", no_wrap=True)
     table.add_column("Status", style="green")
     table.add_column("Version", justify="right", style="blue")
-    
+
     table.add_row("CLI", "✅ Active", __version__)
     table.add_row("Configuration", "✅ Loaded", "1.0")
     table.add_row("Database", "🟡 Connecting", "N/A")
-    
+
     console.print(table)
 
 

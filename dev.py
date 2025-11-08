@@ -44,37 +44,37 @@ def main():
 
     if command == "install":
         run_command("uv sync", "Installing dependencies")
-        
+
     elif command == "test":
         run_command("pytest", "Running tests")
-        
+
     elif command == "lint":
         run_command("ruff check .", "Running linter")
-        
+
     elif command == "format":
         run_command("ruff format .", "Formatting code")
-        
+
     elif command == "build":
         run_command("python -m build", "Building package")
-        
+
     elif command == "clean":
         print("🔄 Cleaning build artifacts...")
         import shutil
-        
+
         # Clean common build directories
         for dir_name in ["build", "dist", "*.egg-info"]:
             for path in Path(".").glob(dir_name):
                 if path.is_dir():
                     shutil.rmtree(path)
                     print(f"Removed {path}")
-        
+
         # Clean __pycache__ directories
         for path in Path(".").rglob("__pycache__"):
             shutil.rmtree(path)
             print(f"Removed {path}")
-        
+
         print("✅ Clean completed")
-        
+
     else:
         print(f"Unknown command: {command}")
         sys.exit(1)
